@@ -4,9 +4,9 @@
 #include "Currentsensor.h"
 #include "Windsensor.h"
 #include "RtdSensor.h"
-#include <DHT.h>
+#include "dht.h"
 
-DHT;
+dht DHT;
 #define DHT11_PIN 48
 
 
