@@ -1,5 +1,6 @@
 #include "RainSensor.h"
 
-RainSensor::Rainsensor(int digital_pin, int analog_pin){
-    
+RainSensor::RainSensor(int digital_pin, int analog_pin){
+    m_digital_pin = digital_pin;
+    m_analog_pin = analog_pin;
 }

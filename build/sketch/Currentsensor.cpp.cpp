@@ -40,7 +40,7 @@ double CurrentSensor::calcCurrentValue(){
 #include "Currentsensor.h"
 #include "Windsensor.h"
 #include "RtdSensor.h"
-#include <dht.h>
+#include "dht.h"
 
 dht DHT;
 #define DHT11_PIN 48

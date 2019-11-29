@@ -11,11 +11,6 @@
   },
   {
     "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
-    "Include": "dht.h",
-    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTlib"
-  },
-  {
-    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -45,7 +40,7 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTlib\\dht.cpp",
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\dht.cpp",
     "Include": "",
     "Includepath": null
   }
