@@ -1,0 +1,8 @@
+{
+    "arduino.path": "C:\\Program Files (x86)\\Arduino",
+    "board": "arduino:avr:mega",
+    "configuration": "cpu=atmega2560",
+    "sketch": "main.ino",
+    "port": "COM11",
+    "output": "./build"
+}
