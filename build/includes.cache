@@ -1,0 +1,52 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\mega"
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
+    "Include": "dht.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTLib"
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Digitalpin.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\RainSensor.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\RtdSensor.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Voltagedivider.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Windsensor.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTLib\\dht.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
