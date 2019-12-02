@@ -17,12 +17,13 @@ double CurrentSensor::calcCurrentValue(){
     calcAdcVoltage();
     currentValue = ((m_adcVoltage - m_offsetVoltage) / m_sensitivity);
 
+    Serial.println("-----Current Sensor -----" );
     Serial.print("Raw Sensor Value = " );
-    Serial.print(m_adcValue);
+    Serial.println(m_adcValue);
     Serial.print(" Voltage (mV)= " );
-    Serial.print(m_adcVoltage);
+    Serial.println(m_adcVoltage);
     Serial.print(" Current = " );
     Serial.print(currentValue);
-    Serial.print("\n"); 
+    Serial.println("\n"); 
     return currentValue;
 }

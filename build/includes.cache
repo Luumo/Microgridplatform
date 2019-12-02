@@ -11,8 +11,8 @@
   },
   {
     "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
-    "Include": "dht.h",
-    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTLib"
+    "Include": "DHT.h",
+    "Includepath": "C:\\Users\\LUMO\\Documents\\Arduino\\libraries\\DHT_sensor_library"
   },
   {
     "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Currentsensor.cpp.cpp",
@@ -45,7 +45,17 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\DHTLib\\dht.cpp",
+    "Sourcefile": "C:\\Users\\LUMO\\Documents\\Arduino\\libraries\\DHT_sensor_library\\DHT.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\LUMO\\Documents\\Arduino\\libraries\\DHT_sensor_library\\DHT_U.cpp",
+    "Include": "Adafruit_Sensor.h",
+    "Includepath": "C:\\Users\\LUMO\\Documents\\Arduino\\libraries\\Adafruit_Sensor-master"
+  },
+  {
+    "Sourcefile": "C:\\Users\\LUMO\\Documents\\Arduino\\libraries\\DHT_sensor_library\\DHT_U.cpp",
     "Include": "",
     "Includepath": null
   }

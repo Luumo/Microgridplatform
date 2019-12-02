@@ -1,6 +1,6 @@
-c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\libraries\DHTLib\dht.cpp.o: \
- C:\Program\ Files\ (x86)\Arduino\libraries\DHTLib\dht.cpp \
- C:\Program\ Files\ (x86)\Arduino\libraries\DHTLib\dht.h \
+c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\libraries\DHT_sensor_library\DHT.cpp.o: \
+ C:\Users\LUMO\Documents\Arduino\libraries\DHT_sensor_library\DHT.cpp \
+ C:\Users\LUMO\Documents\Arduino\libraries\DHT_sensor_library\DHT.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/binary.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/WCharacter.h \

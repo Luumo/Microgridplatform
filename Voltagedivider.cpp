@@ -16,6 +16,7 @@ float VoltageDivider::calculateVin(){
     float voltage = m_inputvalue * (4.998 / 1023.0);
     voltage = voltage / (m_R2/(m_R1+m_R2));
 
+    Serial.println("-----Voltage Sensor -----" );
     Serial.print("Voltage: ");
     Serial.print(voltage);
     Serial.println(" V");

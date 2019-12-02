@@ -11,7 +11,7 @@ class RtdSensor{
     float readInputSignal(int m_pin);
     float getResistance();
     float calcTemperature();
-    void SerialPrint();
+    // void SerialPrint();
 
 
     private:
