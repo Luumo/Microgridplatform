@@ -4,10 +4,7 @@
 #include "Currentsensor.h"
 #include "Windsensor.h"
 #include "RtdSensor.h"
-#include <dht.h>
 
-dht DHT;
-#define DHT11_PIN 48
 
 
 CurrentSensor Currentsensor1(A7);
@@ -23,11 +20,10 @@ void setup() {
 
 void loop() {
 
-  DHT.read11(DHT11_PIN);
   Serial.print("Temp: ");
-  Serial.println(DHT.temperature);
+  Serial.println();
   Serial.print("Humidity: ");
-  Serial.println(DHT.humidity);
+  Serial.println();
   //Currentsensor1.calcCurrentValue();
   //voltagedivider1.calculateVin();
 
