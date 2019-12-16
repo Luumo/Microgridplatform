@@ -27,8 +27,6 @@ void setup() {
 void loop() {
 
   // line protocol: LOCATION,sensortype, timestamp, value
-
-
   Serial.print(LOCATION); 
   Serial.print(",");
   Serial.print("OutdoorTempSensor");
