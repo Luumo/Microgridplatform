@@ -32,113 +32,76 @@ double CurrentSensor::calcCurrentValue(){
 # 2 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 # 3 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 # 4 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
-# 5 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 
+# 6 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 # 7 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 # 8 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
-# 9 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 
 
 
+CurrentSensor solarPanelCurrent(A10);
+CurrentSensor batteryCurrent(A11);
+CurrentSensor loadCurrent(A12);
 
-DHT OutdoorTempSensor(48, 11 /**< DHT TYPE 11 */);
-CurrentSensor Currentsensor1(A7);
-VoltageDivider voltagedivider1(A1, 1040000.0, 222500.0);
-RtdSensor RtdSensor1(A3);
+VoltageDivider solarPanelVoltage(A0, 1040000.0, 222500.0);
+VoltageDivider batteryVoltage(A1, 1040000.0, 222500.0);
+VoltageDivider loadVoltage(A2, 1040000.0, 222500.0);
+
+RtdSensor batteryTemp(A3);
+RtdSensor solarPanelTemp(A4);
+
 RainSensor Rainsensor1(52, 15);
+DHT OutdoorTempSensor(48, 11 /**< DHT TYPE 11 */);
 // WindSensor windsensor(A3);
 
+char listOfSensors[] = "outdoorHumidity,"
+                        "outdoortemperature,"
+                        "rain,"
+                        "batterytemp,"
+                        "batterycurrent,"
+                        "batteryvoltage";
 
+void dataTransfer(int delayTime);
 
 void setup() {
   Serial.begin(115200);
   OutdoorTempSensor.begin();
+  Serial.print(listOfSensors);
+
 }
 
-void loop() {
+void loop(){
+  dataTransfer(10000);
 
-  // line protocol: LOCATION,sensortype, timestamp, value
-
-
-  Serial.print(1);
-  Serial.print(",");
-  Serial.print("OutdoorTempSensor");
-  Serial.print(",");
-  Serial.print(OutdoorTempSensor.readTemperature());
-  Serial.print("\n");
-  delay(1000);
 }
 
-/*
-
-
-
-void loop() {
-
-
-
-  Serial.println("----- Outdoor Temp Sensor -----");
-
-  float h = OutdoorTempSensor.readHumidity();
-
-  float t = OutdoorTempSensor.readTemperature();
-
-
-
-  Serial.print("Temp: ");
-
-  Serial.println(t);
-
-  Serial.print("Humidity: ");
-
-  Serial.println(h);
-
-
-
-  Serial.println("----- Rain Sensor -----");
-
+void dataTransfer(int delayTime){
+  float outdoorHumidity = OutdoorTempSensor.readHumidity();
+  float outdoorTemperature = OutdoorTempSensor.readTemperature();
   int rain = Rainsensor1.SenseRain();
 
-  int analog_rain = Rainsensor1.AnalogSignal();
+  float batterytemp = batteryTemp.calcTemperature();
+  float batterycurrent = batteryCurrent.calcCurrentValue();
+  float batteryvoltage = batteryVoltage.calculateVin();
 
-
-
-  Serial.print("Rain: ");
-
-  if (rain == 1){
-
-    Serial.println("Dry");
-
-    }
-
-    else{
-
-      Serial.println("Wet");
-
-    }
-
-  Serial.print("Analog signal: ");
-
-  Serial.println(analog_rain);
-
-
-
-  Serial.println("----- PT 1000 Sensor -----");
-
-  RtdSensor1.calcTemperature();
-
-
-
-  Currentsensor1.calcCurrentValue();
-
-  voltagedivider1.calculateVin();
-
-  delay(1000);
-
+  Serial.print("Roof" /* Sensorcluster location. */);
+  Serial.print(",");
+  Serial.print(outdoorHumidity);
+  Serial.print(",");
+  Serial.print(outdoorTemperature);
+  Serial.print(",");
+  Serial.print(rain);
+  Serial.print(",");
+  Serial.print(batterytemp);
+  Serial.print(",");
+  Serial.print(batterycurrent);
+  Serial.print(",");
+  Serial.print(batteryvoltage);
+  Serial.print("\n");
+  delay(delayTime);
 }
 
-*/
-# 77 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+
 /*
 
 Schema for InfluxDX:

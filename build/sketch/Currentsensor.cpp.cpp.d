@@ -14,7 +14,6 @@ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Currentsens
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Currentsensor.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/arduino.h \
  C:\Users\LUMO\Documents\Arduino\libraries\DHT_sensor_library/DHT.h \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Digitalpin.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Windsensor.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RtdSensor.h \
