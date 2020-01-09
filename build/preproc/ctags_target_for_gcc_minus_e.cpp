@@ -39,13 +39,14 @@ double CurrentSensor::calcCurrentValue(){
 
 
 
-CurrentSensor solarPanelCurrent(A10);
-CurrentSensor batteryCurrent(A11);
-CurrentSensor loadCurrent(A12);
 
 VoltageDivider solarPanelVoltage(A0, 1040000.0, 222500.0);
 VoltageDivider batteryVoltage(A1, 1040000.0, 222500.0);
 VoltageDivider loadVoltage(A2, 1040000.0, 222500.0);
+
+CurrentSensor solarPanelCurrent(10);
+CurrentSensor batteryCurrent(11);
+CurrentSensor loadCurrent(12);
 
 RtdSensor batteryTemp(A3);
 RtdSensor solarPanelTemp(A4);
@@ -54,6 +55,19 @@ RainSensor Rainsensor1(52, 15);
 DHT OutdoorTempSensor(48, 11 /**< DHT TYPE 11 */);
 // WindSensor windsensor(A3);
 
+
+/*
+
+Make sure listOfSensors consists of same sensors as dataTransfer function.
+
+each name in listOfSensors should end with a comma, except the last one
+
+  structure:
+
+  "Sensorname1, Sensorname2, Sensorname3,...,SensornameN"
+
+*/
+# 34 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 char listOfSensors[] = "outdoorHumidity,"
                         "outdoortemperature,"
                         "rain,"
@@ -61,21 +75,22 @@ char listOfSensors[] = "outdoorHumidity,"
                         "batterycurrent,"
                         "batteryvoltage";
 
-void dataTransfer(int delayTime);
-
-void setup() {
-  Serial.begin(115200);
-  OutdoorTempSensor.begin();
-  Serial.print(listOfSensors);
-
-}
-
-void loop(){
-  dataTransfer(10000);
-
-}
 
 void dataTransfer(int delayTime){
+  /*
+
+  reads sensordata and sends it via serial communication.
+
+  each value is separated by a comma.
+
+  Decodes on the recieving RPI
+
+  structure:
+
+  Location,SensorData1,SensorData2,SensorData3,...,SensorDataN"
+
+  */
+# 50 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
   float outdoorHumidity = OutdoorTempSensor.readHumidity();
   float outdoorTemperature = OutdoorTempSensor.readTemperature();
   int rain = Rainsensor1.SenseRain();
@@ -84,7 +99,7 @@ void dataTransfer(int delayTime){
   float batterycurrent = batteryCurrent.calcCurrentValue();
   float batteryvoltage = batteryVoltage.calculateVin();
 
-  Serial.print("Roof" /* Sensorcluster location. */);
+  Serial.print("Roof" /* Sensorcluster location*/);
   Serial.print(",");
   Serial.print(outdoorHumidity);
   Serial.print(",");
@@ -101,6 +116,18 @@ void dataTransfer(int delayTime){
   delay(delayTime);
 }
 
+void setup() {
+  Serial.begin(115200);
+  OutdoorTempSensor.begin();
+  Serial.print(listOfSensors);
+
+}
+
+void loop(){
+  dataTransfer(10000);
+
+}
+
 
 /*
 
@@ -108,11 +135,17 @@ Schema for InfluxDX:
 
 See Line Protocol Syntax for influxDB
 
+handled at raspberry:
+
+  date, time
+
 
 
 data to be sent from arduino:
 
-clusterlocation,sensortype, value, date
+  clusterlocation,sensortype, value
+
+
 
 ->
 
