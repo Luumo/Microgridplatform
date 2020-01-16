@@ -5,17 +5,20 @@
 class WindSensor{
     public:
     WindSensor(int pin);
-    void getRawData(int _pin);
+    void getRawData();
+    float calcWindSpeed();
 
 
     private:
-    int _pin;
-    int _sensorrawdata = 0; // 0-1023 from analog input
+    int m_pin;
+    float m_sensorRawData = 0.0; // 0-1023 from analog input
+    float sensorVoltage = 0.0;
 
     float voltageMin = 0.4; //
     float windSpeedMin = 0;
+
     float voltageMax = 2.0;
-    float windSpeedMax = 32;
+    float windSpeedMax = 32.0;
 
     float windSpeed = 0;
 

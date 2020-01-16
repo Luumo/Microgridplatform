@@ -44,24 +44,24 @@ double CurrentSensor::calcCurrentValue(){
 #include "Windsensor.h"
 #include "RtdSensor.h"
 #include "RainSensor.h"
+#include "Windsensor.h"
 
 #define LOCATION "Roof"    // Sensorcluster location
 
+VoltageDivider  solarPanelVoltage(A0, 1040000.0, 222500.0);
+VoltageDivider  batteryVoltage(A1, 1040000.0, 222500.0);
+VoltageDivider  loadVoltage(A2, 1040000.0, 222500.0);
 
-VoltageDivider solarPanelVoltage(A0, 1040000.0, 222500.0);
-VoltageDivider batteryVoltage(A1, 1040000.0, 222500.0);
-VoltageDivider loadVoltage(A2, 1040000.0, 222500.0);
+CurrentSensor   solarPanelCurrent(10);
+CurrentSensor   batteryCurrent(11);
+CurrentSensor   loadCurrent(12);
 
-CurrentSensor solarPanelCurrent(10);
-CurrentSensor batteryCurrent(11);
-CurrentSensor loadCurrent(12);
+RtdSensor       batteryTemp(A3);
+RtdSensor       solarPanelTemp(A4);
 
-RtdSensor      batteryTemp(A3);
-RtdSensor      solarPanelTemp(A4);
-
-RainSensor     Rainsensor1(52, 15);
-DHT            OutdoorTempSensor(48, DHT11);
-// WindSensor windsensor(A3);
+RainSensor      Rainsensor1(52, 15);
+DHT             OutdoorTempSensor(48, DHT11);
+WindSensor      windsensor(A5);
 
 
 /*
@@ -119,7 +119,11 @@ void setup() {
 }
 
 void loop(){
-  dataTransfer(10000);
+  // dataTransfer(10000);
+  float speed = windsensor.calcWindSpeed();
+  Serial.print("Wind Speed: ");
+  Serial.println(speed);
+  delay(1000);
 
 }
 

@@ -53,7 +53,7 @@ RtdSensor solarPanelTemp(A4);
 
 RainSensor Rainsensor1(52, 15);
 DHT OutdoorTempSensor(48, 11 /**< DHT TYPE 11 */);
-// WindSensor windsensor(A3);
+WindSensor windsensor(A5);
 
 
 /*
@@ -124,7 +124,11 @@ void setup() {
 }
 
 void loop(){
-  dataTransfer(10000);
+  // dataTransfer(10000);
+  float speed = windsensor.calcWindSpeed();
+  Serial.print("Wind Speed: ");
+  Serial.println(speed);
+  delay(1000);
 
 }
 
