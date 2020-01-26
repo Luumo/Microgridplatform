@@ -17,4 +17,5 @@ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Currentsens
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Windsensor.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RtdSensor.h \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RainSensor.h
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RainSensor.h \
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sensor.h

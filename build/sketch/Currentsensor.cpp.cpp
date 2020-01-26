@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#line 42 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 44 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void dataTransfer(int delayTime);
-#line 75 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 77 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void setup();
-#line 82 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 84 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void loop();
 #line 0 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 #line 1 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp"
@@ -45,6 +45,8 @@ double CurrentSensor::calcCurrentValue(){
 #include "RtdSensor.h"
 #include "RainSensor.h"
 #include "Windsensor.h"
+#include "Sensor.h"
+
 
 #define LOCATION "Roof"    // Sensorcluster location
 

@@ -37,6 +37,8 @@ double CurrentSensor::calcCurrentValue(){
 # 7 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 # 8 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
 
+# 10 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino" 2
+
 
 
 
@@ -67,7 +69,7 @@ each name in listOfSensors should end with a comma, except the last one
   "Sensorname1, Sensorname2, Sensorname3,...,SensornameN"
 
 */
-# 34 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+# 36 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 char listOfSensors[] = "outdoorHumidity,"
                         "outdoortemperature,"
                         "rain,"
@@ -90,7 +92,7 @@ void dataTransfer(int delayTime){
   Location,SensorData1,SensorData2,SensorData3,...,SensorDataN"
 
   */
-# 50 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+# 52 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
   float outdoorHumidity = OutdoorTempSensor.readHumidity();
   float outdoorTemperature = OutdoorTempSensor.readTemperature();
   int rain = Rainsensor1.SenseRain();

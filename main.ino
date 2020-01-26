@@ -6,6 +6,8 @@
 #include "RtdSensor.h"
 #include "RainSensor.h"
 #include "Windsensor.h"
+#include "Sensor.h"
+
 
 #define LOCATION "Roof"    // Sensorcluster location
 
