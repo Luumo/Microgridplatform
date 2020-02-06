@@ -6,7 +6,7 @@ class WindSensor{
     public:
     WindSensor(int pin);
     void getRawData();
-    float calcWindSpeed();
+    float readWindSpeed();
 
 
     private:

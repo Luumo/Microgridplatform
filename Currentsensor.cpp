@@ -12,18 +12,9 @@ void CurrentSensor::getAdcValue(int _pin){
     m_adcVoltage = (m_adcValue / 1024.0) * 5000; // returns adc voltage
 }
 
-double CurrentSensor::calcCurrentValue(){
+double CurrentSensor::readCurrent(){
     getAdcValue(m_pin);
     calcAdcVoltage();
     currentValue = ((m_adcVoltage - m_offsetVoltage) / m_sensitivity);
-
-    Serial.println("-----Current Sensor -----" );
-    Serial.print("Raw Sensor Value = " );
-    Serial.println(m_adcValue);
-    Serial.print(" Voltage (mV)= " );
-    Serial.println(m_adcVoltage);
-    Serial.print(" Current = " );
-    Serial.print(currentValue);
-    Serial.println("\n"); 
     return currentValue;
 }

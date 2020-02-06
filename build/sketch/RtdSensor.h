@@ -8,9 +8,7 @@
 class RtdSensor{
     public:
     RtdSensor(int pin);
-    float readInputSignal(int m_pin);
-    float getResistance();
-    float calcTemperature();
+    float readTemperature();
     // void SerialPrint();
 
 
@@ -22,6 +20,10 @@ class RtdSensor{
     float A = 3.9083E-3;        // Constants for pt-1000
     float B = -5.775E-7;        //Constant
     float C = -4.183*10E-12;    //constant
+    
+    //helper functions
+    float readInputSignal(int m_pin);
+    float getResistance();
     
 };
 #endif //RTDSENSOR_H

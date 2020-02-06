@@ -17,7 +17,7 @@ float RtdSensor::getResistance(){
     m_resistance = resistance;
 }
 
-float RtdSensor::calcTemperature(){
+float RtdSensor::readTemperature(){
     getResistance();
     float temp =((-(R0 * A) +  (sqrt( (R0*A)*(R0*A) + (-4*R0*B*(R0-m_resistance) ) ) ) ) / (2*R0*B)); // formula from PT-1000 doc.
     float offset = (0.30 + 0.005*temp);  

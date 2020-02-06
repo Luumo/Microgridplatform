@@ -10,7 +10,7 @@ void WindSensor::getRawData(){
 }
 
 
-float WindSensor::calcWindSpeed(){
+float WindSensor::readWindSpeed(){
     getRawData();
     Serial.print("Analog Data: ");
     Serial.println(m_sensorRawData);

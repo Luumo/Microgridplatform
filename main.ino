@@ -1,4 +1,5 @@
 #include <arduino.h>
+#include <string.h>
 #include "DHT.h"
 #include "Voltagedivider.h"
 #include "Currentsensor.h"
@@ -8,12 +9,10 @@
 #include "Windsensor.h"
 #include "Sensor.h"
 
-
 #define LOCATION "Roof"    // Sensorcluster location
 
-VoltageDivider  solarPanelVoltage(A0, 1040000.0, 222500.0);
-VoltageDivider  batteryVoltage(A1, 1040000.0, 222500.0);
-VoltageDivider  loadVoltage(A2, 1040000.0, 222500.0);
+VoltageDivider  solarPanelVoltage(A0, 100000.0, 47000.0);
+VoltageDivider  batteryVoltage(A1, 100000.0, 47000.0);
 
 CurrentSensor   solarPanelCurrent(10);
 CurrentSensor   batteryCurrent(11);
@@ -22,10 +21,9 @@ CurrentSensor   loadCurrent(12);
 RtdSensor       batteryTemp(A3);
 RtdSensor       solarPanelTemp(A4);
 
-RainSensor      Rainsensor1(52, 15);
-DHT             OutdoorTempSensor(48, DHT11);
-WindSensor      windsensor(A5);
-
+RainSensor      Rainsensor(52, 15);
+DHT             OutdoorTempSensor(A6, DHT11);
+WindSensor      windSensor(14);
 
 /*
 Make sure listOfSensors consists of same sensors as dataTransfer function.
@@ -33,61 +31,96 @@ each name in listOfSensors should end with a comma, except the last one
   structure:
   "Sensorname1, Sensorname2, Sensorname3,...,SensornameN"
 */
-char listOfSensors[] =  "outdoorHumidity,"
-                        "outdoortemperature,"
-                        "rain,"
-                        "batterytemp,"
-                        "batterycurrent,"
-                        "batteryvoltage";
+/*
+https://www.arduino.cc/reference/tr/language/variables/data-types/string/
+*/
 
+
+void serialPrintSensorData(char *location, char *sensorname, float value, char *prefix){
+  Serial.print(location);
+  Serial.print(",");
+  Serial.print(sensorname);
+  Serial.print(",");
+  Serial.print(value);
+  Serial.print(",");
+  Serial.print(prefix);
+  Serial.print("\n");
+}
 
 void dataTransfer(int delayTime){
+
   /*
   reads sensordata and sends it via serial communication.
   each value is separated by a comma.
   Decodes on the recieving RPI
   structure:
-  Location,SensorData1,SensorData2,SensorData3,...,SensorDataN"
+  clusterlocation
+  sensortype, value, prefix
   */
-  float outdoorHumidity     = OutdoorTempSensor.readHumidity();
-  float outdoorTemperature  = OutdoorTempSensor.readTemperature();
-  int rain                  = Rainsensor1.SenseRain();
+  float solarpanelvoltage   = solarPanelVoltage.readVoltage();
+  float batteryvoltage      = batteryVoltage.readVoltage();
 
-  float batterytemp         = batteryTemp.calcTemperature();
-  float batterycurrent      = batteryCurrent.calcCurrentValue();
-  float batteryvoltage      = batteryVoltage.calculateVin();
+  double solarpanelcurrent  = solarPanelCurrent.readCurrent();
+  double batterycurrent     = batteryCurrent.readCurrent();
+  double loadcurrent        = loadCurrent.readCurrent();
 
-  Serial.print(LOCATION); 
-  Serial.print(",");
-  Serial.print(outdoorHumidity);
-  Serial.print(",");
-  Serial.print(outdoorTemperature);
-  Serial.print(",");
-  Serial.print(rain);
-  Serial.print(",");
-  Serial.print(batterytemp);
-  Serial.print(",");
-  Serial.print(batterycurrent);
-  Serial.print(",");
-  Serial.print(batteryvoltage);
-  Serial.print("\n");
-  delay(delayTime);
+  float batterytemp         = batteryTemp.readTemperature();
+  float solarpaneltemp      = solarPanelTemp.readTemperature();
+
+  int rain                  = Rainsensor.readRain();
+  float outdoorhumidity     = OutdoorTempSensor.readHumidity();
+  float outdoortemperature  = OutdoorTempSensor.readTemperature();
+  float windspeed           = windSensor.readWindSpeed();
+
+  serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
+  serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
+
+  serialPrintSensorData(LOCATION, "SPC", solarpanelcurrent, "A");
+  serialPrintSensorData(LOCATION, "BC", batterycurrent, "A");
+  serialPrintSensorData(LOCATION, "LC", loadcurrent, "A");
+
+  serialPrintSensorData(LOCATION, "BT", batterytemp, "celcius");
+  serialPrintSensorData(LOCATION, "SPT", solarpaneltemp, "celcius");
+
+  serialPrintSensorData(LOCATION, "RAIN", rain, "HIGH/LOW");
+  serialPrintSensorData(LOCATION, "OUTHUM", outdoorhumidity, "V");
+  serialPrintSensorData(LOCATION, "OUTTEMP", outdoortemperature, "V");
+  serialPrintSensorData(LOCATION, "windspeed", windspeed, "m/s");
 }
 
+void CheckConnectionRPI(){
+  // wait for serial port to connect.
+  while (!Serial) {
+  }
+}
 void setup() {          
   Serial.begin(115200);
   OutdoorTempSensor.begin();
-  Serial.print(listOfSensors);
+
+  CheckConnectionRPI();
+  delay(100);
 
 }
 
 void loop(){
-  // dataTransfer(10000);
-  float speed = windsensor.calcWindSpeed();
-  Serial.print("Wind Speed: ");
-  Serial.println(speed);
-  delay(1000);
 
+dataTransfer(5000);
+
+/*
+  int solarcurrent = solarPanelCurrent.readCurrent();
+  Serial.print(" solarcurrent = " );
+  Serial.println(solarcurrent);
+
+  int batterycurrent = batteryCurrent.readCurrent();
+  Serial.print(" batterycurrent = " );
+  Serial.println(solarcurrent);
+
+  int loadcurrent = loadCurrent.readCurrent();
+  Serial.print(" batterycurrent = " );
+  Serial.println(solarcurrent);
+
+  delay(1000);
+*/
 }
 
 
