@@ -12,7 +12,7 @@ void CurrentSensor::getAdcValue(int _pin){
     m_adcVoltage = (m_adcValue / 1024.0) * 5000; // returns adc voltage
 }
 
-double CurrentSensor::readCurrent(){
+float CurrentSensor::readCurrent(){
     getAdcValue(m_pin);
     calcAdcVoltage();
     currentValue = ((m_adcVoltage - m_offsetVoltage) / m_sensitivity);

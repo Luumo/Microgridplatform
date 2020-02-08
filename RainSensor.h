@@ -11,6 +11,9 @@ class RainSensor{
     private:
     int m_digital_pin;
     int m_analog_pin;
+    // sensor range
+    int m_min = 0;
+    int m_max = 1023;
 };
 
 #endif //RAINSENSOR_H

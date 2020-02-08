@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#line 66 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
-void dataTransfer(int delayTime);
-#line 128 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
-void CheckConnectionRPI();
-#line 133 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 34 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void setup();
-#line 143 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 43 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void loop();
+#line 49 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+void dataTransfer(int delayTime);
+#line 90 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+void serialPrintSensorData(char *location, char *sensorname, float value, char *prefix);
 #line 0 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 #line 1 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp"
 #include "Currentsensor.h"
@@ -23,7 +23,7 @@ void CurrentSensor::getAdcValue(int _pin){
     m_adcVoltage = (m_adcValue / 1024.0) * 5000; // returns adc voltage
 }
 
-double CurrentSensor::readCurrent(){
+float CurrentSensor::readCurrent(){
     getAdcValue(m_pin);
     calcAdcVoltage();
     currentValue = ((m_adcVoltage - m_offsetVoltage) / m_sensitivity);
@@ -57,43 +57,26 @@ RainSensor      Rainsensor(52, 15);
 DHT             OutdoorTempSensor(A6, DHT11);
 WindSensor      windSensor(14);
 
-String my_str = ("stringtest");
-/*
-Make sure listOfSensors consists of same sensors as dataTransfer function.
-each name in listOfSensors should end with a comma, except the last one
-  structure:
-  "Sensorname1, Sensorname2, Sensorname3,...,SensornameN"
-*/
-/*
-https://www.arduino.cc/reference/tr/language/variables/data-types/string/
-*/
+// Function declaration
+void serialPrintSensorData(char, char, float, char);
+void CheckConnectionRPI();
+void dataTransfer(int);
 
+// Main program
+void setup() {          
+  Serial.begin(115200);
+  OutdoorTempSensor.begin();
 
+  CheckConnectionRPI();
+  delay(100);
 
-char listOfSensors[] =  "solarPanelVoltage : V"
-                        ","
-                        "batteryVoltage : V"
-                        ","
-                        "solarPanelCurrent : A"
-                        ","
-                        "batteryCurrent : A"
-                        ","
-                        "loadCurrent : A"
-                        ","
-                        "batteryTemp : C"
-                        ","
-                        "solarPanelTemp : C"
-                        ","
-                        "rainsensor : true/false"
-                        ","
-                        "outdoorTemp : C"
-                        ","
-                        "OutdoorHumidity : %"
-                        ","
-                        "windSensor : m/s";
+}
 
+void loop(){
+  dataTransfer(2000);
+}
 
-
+// Functions
 
 void dataTransfer(int delayTime){
 
@@ -102,59 +85,49 @@ void dataTransfer(int delayTime){
   each value is separated by a comma.
   Decodes on the recieving RPI
   structure:
-  clusterlocation,sensortype, value, prefix
+  clusterlocation, sensortype, value, prefix
   */
-  float solarpanelvoltage   = solarPanelVoltage.readVoltage();
-  float batteryvoltage      = batteryVoltage.readVoltage();
+  float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(10);
+  float batteryvoltage      = batteryVoltage.readVoltage();         delay(10);
 
-  double solarpanelcurrent  = solarPanelCurrent.readCurrent();
-  double batterycurrent     = batteryCurrent.readCurrent();
-  double loadcurrent        = loadCurrent.readCurrent();
+  float solarpanelcurrent  = solarPanelCurrent.readCurrent();       delay(10);
+  float batterycurrent     = batteryCurrent.readCurrent();          delay(10);
+  float loadcurrent        = loadCurrent.readCurrent();             delay(10);
 
-  float batterytemp         = batteryTemp.readTemperature();
-  float solarpaneltemp      = solarPanelTemp.readTemperature();
+  float batterytemp         = batteryTemp.readTemperature();        delay(10);
+  float solarpaneltemp      = solarPanelTemp.readTemperature();     delay(10);
 
-  int rain                  = Rainsensor.readRain();
-  float outdoorHumidity     = OutdoorTempSensor.readHumidity();
-  float outdoorTemperature  = OutdoorTempSensor.readTemperature();
+  int rain                  = Rainsensor.readRain(); delay(10);     delay(10);
+  float outdoorhumidity     = OutdoorTempSensor.readHumidity();     delay(10);
+  float outdoortemperature  = OutdoorTempSensor.readTemperature();  delay(10);
+  float windspeed           = windSensor.readWindSpeed();           delay(10);
 
-  Serial.print(LOCATION);
+  serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
+  serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
 
-  void data_converter(char sensortype, float value, char prefix){
-    String str = sensortype + "," + value + "," + prefix;
+  serialPrintSensorData(LOCATION, "SPC", solarpanelcurrent, "A");
+  serialPrintSensorData(LOCATION, "BC", batterycurrent, "A");
+  serialPrintSensorData(LOCATION, "LC", loadcurrent, "A");
 
-    print(str )
-    }
+  serialPrintSensorData(LOCATION, "BT", batterytemp, "celcius");
+  serialPrintSensorData(LOCATION, "SPT", solarpaneltemp, "celcius");
 
-  Serial.print(LOCATION); 
-  Serial.print(",");
-  Serial.print(solarpanelvoltage);
-  Serial.print(",");
-  Serial.print(batteryvoltage);
-  Serial.print(",");
-  Serial.print(solarpanelcurrent);
-  Serial.print(",");
-  Serial.print(batterycurrent);
-  Serial.print(",");
-  Serial.print(loadcurrent);
-  Serial.print(",");
-  Serial.print(batterytemp);
-  Serial.print(",");
-  Serial.print(solarpaneltemp);
-  Serial.print(",");
-  Serial.print(rain);
+  serialPrintSensorData(LOCATION, "RAIN", rain, "HIGH/MEDIUM/LOW");
+  serialPrintSensorData(LOCATION, "OUTHUM", outdoorhumidity, "%");
+  serialPrintSensorData(LOCATION, "OUTTEMP", outdoortemperature, "celcuis");
+  serialPrintSensorData(LOCATION, "windspeed", windspeed, "m/s");
 
-  Serial.print(",");
-  Serial.print(outdoorHumidity);
-  Serial.print(",");
-  Serial.print(outdoorTemperature);
-
-  Serial.print(",");
-  Serial.print(batterycurrent);
-  Serial.print(",");
-  Serial.print(batteryvoltage);
-  Serial.print("\n");
   delay(delayTime);
+}
+void serialPrintSensorData(char *location, char *sensorname, float value, char *prefix){
+  Serial.print(location);
+  Serial.print(",");
+  Serial.print(sensorname);
+  Serial.print(",");
+  Serial.print(value);
+  Serial.print(",");
+  Serial.print(prefix);
+  Serial.print("\n");
 }
 
 void CheckConnectionRPI(){
@@ -162,77 +135,49 @@ void CheckConnectionRPI(){
   while (!Serial) {
   }
 }
-void setup() {          
-  Serial.begin(115200);
-  OutdoorTempSensor.begin();
-
-  CheckConnectionRPI();
-  Serial.print(listOfSensors);
-  delay(100);
-
-}
-
-void loop(){
-
-  int solarcurrent = solarPanelCurrent.readCurrent();
-  Serial.print(" solarcurrent = " );
-  Serial.println(solarcurrent);
-
-  int batterycurrent = batteryCurrent.readCurrent();
-  Serial.print(" batterycurrent = " );
-  Serial.println(solarcurrent);
-
-  int loadcurrent = loadCurrent.readCurrent();
-  Serial.print(" batterycurrent = " );
-  Serial.println(solarcurrent);
-
-  delay(1000);
-
-}
-
 
 /*
-Schema for InfluxDX:
-See Line Protocol Syntax for influxDB
-handled at raspberry:
-  date, time
+  Schema for InfluxDX:
+  See Line Protocol Syntax for influxDB
+  handled at raspberry:
+    date, time
 
-data to be sent from arduino:
-  clusterlocation,sensortype, value
+  data to be sent from arduino:
+    clusterlocation,sensortype, value
 
-->
-this has to be parsed to python:
-data = [
-  {
-    "measurement": sensorcluster,
-    "tags": {
-      "location": location_var,
-      "sensortype": sensortype_Var
-    },
-    "time": iso,
-    "fields": {
-      "value": sensorvalue_Var
+  ->
+  this has to be parsed to python:
+  data = [
+    {
+      "measurement": sensorcluster,
+      "tags": {
+        "location": location_var,
+        "sensortype": sensortype_Var
+      },
+      "time": iso,
+      "fields": {
+        "value": sensorvalue_Var
+      }
     }
-  }
-]
+  ]
 
 
-**SORTED BY SENSORCLUSTER**
-ex:
+  **SORTED BY SENSORCLUSTER**
+  ex:
 
-INSERT sensorcluster,clusterlocation=1,sensortype=outdoortemp value=23 XXXXXXXXXXXX 
-see Milk-sensor documentation for futher info about data protocol from python
+  INSERT sensorcluster,clusterlocation=1,sensortype=outdoortemp value=23 XXXXXXXXXXXX 
+  see Milk-sensor documentation for futher info about data protocol from python
 
-name: Sensorcluster
------------------
-time                         sensortype       clusterlocation    value
-2019-12-11T19:30:00.xxxxxx   Humidity         1                    90
-2019-12-11T19:30:00.xxxxxx   outdoortemp      1                    22
-2019-12-11T19:30:00.xxxxxx   batterytemp      1                    23
-2019-12-11T19:30:00.xxxxxx   batteryCurrent   1                    8
-2019-12-11T19:30:00.xxxxxx   batteryvoltage   1                    12.3
-2019-12-11T19:30:00.xxxxxx   PVvoltage        1                    12.3
-2019-12-11T19:30:00.xxxxxx   PVCurrent        1                    8
+  name: Sensorcluster
+  -----------------
+  time                         sensortype       clusterlocation    value
+  2019-12-11T19:30:00.xxxxxx   Humidity         1                    90
+  2019-12-11T19:30:00.xxxxxx   outdoortemp      1                    22
+  2019-12-11T19:30:00.xxxxxx   batterytemp      1                    23
+  2019-12-11T19:30:00.xxxxxx   batteryCurrent   1                    8
+  2019-12-11T19:30:00.xxxxxx   batteryvoltage   1                    12.3
+  2019-12-11T19:30:00.xxxxxx   PVvoltage        1                    12.3
+  2019-12-11T19:30:00.xxxxxx   PVCurrent        1                    8
 
 
 */

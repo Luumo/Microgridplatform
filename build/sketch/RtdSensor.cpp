@@ -20,20 +20,8 @@ float RtdSensor::getResistance(){
 float RtdSensor::readTemperature(){
     getResistance();
     float temp =((-(R0 * A) +  (sqrt( (R0*A)*(R0*A) + (-4*R0*B*(R0-m_resistance) ) ) ) ) / (2*R0*B)); // formula from PT-1000 doc.
-    float offset = (0.30 + 0.005*temp);  
-    if (SERIALPRINT){
-        Serial.print("Analog reading "); 
-        Serial.println(m_ADC);
-
-         Serial.print("Thermistor resistance "); 
-        Serial.println(m_resistance);
-        
-        Serial.print("Temp: "); 
-        Serial.println(temp);
-        Serial.print("Temp offset: +/- "); 
-        Serial.println(offset);
-        Serial.print("\n"); 
-    }
+    float offset = (0.30 + 0.005*temp);
+    return temp;
 
 }
 

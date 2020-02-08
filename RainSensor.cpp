@@ -7,15 +7,26 @@ RainSensor::RainSensor(int digital_pin, int analog_pin){
     pinMode(m_analog_pin, INPUT);
 }
 
-int RainSensor::readRain(){
-    if (digitalRead(m_digital_pin) == LOW){
-        return 0; // Wet
-    }
-    else{
-        return 1; // Dry
-    }
-}
 
 int RainSensor::AnalogSignal(){
+    Serial.println(analogRead(m_analog_pin));
     return analogRead(m_analog_pin);
+}
+
+int RainSensor::readRain(){
+    int range = map(AnalogSignal(), m_min, m_max, 0, 3);
+
+    switch(range){
+        case 0:
+            return 0; // Max rain
+            break;
+
+        case 1:
+            return 1; // medium rain
+            break;
+
+        case 2:
+            return 2; // no rain
+            break;
+    }
 }

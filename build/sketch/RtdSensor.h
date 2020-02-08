@@ -3,7 +3,6 @@
 #include <arduino.h>
 
 #define SERIESRESISTOR 5025.0     //Resistor value of series resistor in voltage divider
-#define SERIALPRINT 1          // 1 = serial print calctemp, 0 = don't print
 
 class RtdSensor{
     public:

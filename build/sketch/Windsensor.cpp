@@ -12,11 +12,8 @@ void WindSensor::getRawData(){
 
 float WindSensor::readWindSpeed(){
     getRawData();
-    Serial.print("Analog Data: ");
-    Serial.println(m_sensorRawData);
     sensorVoltage = m_sensorRawData * (5.0/1023.0);
-    Serial.print("SensorVOltage: ");
-    Serial.println(sensorVoltage);
+
 
     if(sensorVoltage <= voltageMin){
         windSpeed = 0;
