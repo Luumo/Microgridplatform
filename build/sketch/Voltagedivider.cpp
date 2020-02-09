@@ -7,7 +7,8 @@ VoltageDivider::VoltageDivider(int pin, float R1, float R2){
 }
 
 void VoltageDivider::readInputValue(int _pin){
-   m_inputvalue = analogRead(m_pin);
+
+    m_inputvalue = analogRead(m_pin);
 }
 
 

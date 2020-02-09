@@ -1,7 +1,8 @@
 #include "RtdSensor.h"
 
-RtdSensor::RtdSensor(int pin){
+RtdSensor::RtdSensor(int pin, float resistance_offset){
     m_pin = pin;
+    m_resistance_offset = resistance_offset;
 }
 
 float RtdSensor::readInputSignal(int m_pin){
@@ -11,8 +12,8 @@ float RtdSensor::readInputSignal(int m_pin){
 
 float RtdSensor::getResistance(){
     readInputSignal(m_pin);
-    float resistance = 5000.0 / ( (1023 / m_ADC) -1);
-    resistance += 28.0; //thermistor offset
+    float resistance = 5000.0 / ( (1023.0 / m_ADC) -1);
+    resistance += m_resistance_offset; //thermistor offset
     
     m_resistance = resistance;
 }

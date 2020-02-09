@@ -14,9 +14,8 @@ float WindSensor::readWindSpeed(){
     getRawData();
     sensorVoltage = m_sensorRawData * (5.0/1023.0);
 
-
     if(sensorVoltage <= voltageMin){
-        windSpeed = 0;
+        windSpeed = 0.0;
     }
     else{
         windSpeed = ((sensorVoltage - voltageMin) / (voltageMax - voltageMin))* 32.0; // meter per second

@@ -2,11 +2,9 @@
 #define RTDSENSOR_H
 #include <arduino.h>
 
-#define SERIESRESISTOR 5025.0     //Resistor value of series resistor in voltage divider
-
 class RtdSensor{
     public:
-    RtdSensor(int pin);
+    RtdSensor(int pin, float resistance_offset);
     float readTemperature();
     // void SerialPrint();
 
@@ -15,6 +13,7 @@ class RtdSensor{
     int m_pin;
     float m_ADC;
     float m_resistance;
+    float m_resistance_offset;
     float R0 = 1000.0;            // nominal value, resistance at 0*C for PT-1000
     float A = 3.9083E-3;        // Constants for pt-1000
     float B = -5.775E-7;        //Constant

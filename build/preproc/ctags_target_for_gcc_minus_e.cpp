@@ -33,33 +33,31 @@ float CurrentSensor::readCurrent(){
 
 
 
-VoltageDivider solarPanelVoltage(A0, 100000.0, 47000.0);
-VoltageDivider batteryVoltage(A1, 100000.0, 47000.0);
+VoltageDivider solarPanelVoltage(A0, 215000.0, 66500.0);
+VoltageDivider batteryVoltage(A1, 217000.0, 66100.0);
 
 CurrentSensor solarPanelCurrent(10);
 CurrentSensor batteryCurrent(11);
 CurrentSensor loadCurrent(12);
 
-RtdSensor batteryTemp(A3);
-RtdSensor solarPanelTemp(A4);
+RtdSensor batteryTemp(A3, float(21)); //offset about 21 ohm
+RtdSensor solarPanelTemp(A4, float(28)); //ofset about 28 ohm (4 ohm = 1 degree celcius)
 
 RainSensor Rainsensor(52, 15);
 DHT OutdoorTempSensor(A6, 11 /**< DHT TYPE 11 */);
 WindSensor windSensor(14);
 
 // Function declaration
-void serialPrintSensorData(char, char, float, char);
-void CheckConnectionRPI();
-void dataTransfer(int);
+void serialPrintSensorData(String location, String sensorname, float value, String prefix);
+bool serialReadyCheck();
+void dataTransfer(int delay);
 
 // Main program
 void setup() {
   Serial.begin(115200);
   OutdoorTempSensor.begin();
-
-  CheckConnectionRPI();
+  serialReadyCheck();
   delay(100);
-
 }
 
 void loop(){
@@ -67,7 +65,6 @@ void loop(){
 }
 
 // Functions
-
 void dataTransfer(int delayTime){
 
   /*
@@ -83,21 +80,21 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
 
   */
-# 58 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
-  float solarpanelvoltage = solarPanelVoltage.readVoltage(); delay(10);
-  float batteryvoltage = batteryVoltage.readVoltage(); delay(10);
+# 55 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+  float solarpanelvoltage = solarPanelVoltage.readVoltage(); delay(25);
+  float batteryvoltage = batteryVoltage.readVoltage(); delay(25);
 
-  float solarpanelcurrent = solarPanelCurrent.readCurrent(); delay(10);
-  float batterycurrent = batteryCurrent.readCurrent(); delay(10);
-  float loadcurrent = loadCurrent.readCurrent(); delay(10);
+  float solarpanelcurrent = solarPanelCurrent.readCurrent(); delay(25);
+  float batterycurrent = batteryCurrent.readCurrent(); delay(25);
+  float loadcurrent = loadCurrent.readCurrent(); delay(25);
 
-  float batterytemp = batteryTemp.readTemperature(); delay(10);
-  float solarpaneltemp = solarPanelTemp.readTemperature(); delay(10);
+  float batterytemp = batteryTemp.readTemperature(); delay(25);
+  float solarpaneltemp = solarPanelTemp.readTemperature(); delay(25);
 
-  int rain = Rainsensor.readRain(); delay(10); delay(10);
-  float outdoorhumidity = OutdoorTempSensor.readHumidity(); delay(10);
-  float outdoortemperature = OutdoorTempSensor.readTemperature(); delay(10);
-  float windspeed = windSensor.readWindSpeed(); delay(10);
+  int rain = Rainsensor.readRain(); delay(25);
+  float outdoorhumidity = OutdoorTempSensor.readHumidity(); delay(25);
+  float outdoortemperature = OutdoorTempSensor.readTemperature(); delay(25);
+  float windspeed = windSensor.readWindSpeed(); delay(25);
 
   serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPV", solarpanelvoltage, "V");
   serialPrintSensorData("Roof" /* Sensorcluster location*/, "BV", batteryvoltage, "V");
@@ -116,7 +113,8 @@ void dataTransfer(int delayTime){
 
   delay(delayTime);
 }
-void serialPrintSensorData(char *location, char *sensorname, float value, char *prefix){
+
+void serialPrintSensorData(String location, String sensorname, float value, String prefix){
   Serial.print(location);
   Serial.print(",");
   Serial.print(sensorname);
@@ -127,13 +125,20 @@ void serialPrintSensorData(char *location, char *sensorname, float value, char *
   Serial.print("\n");
 }
 
-void CheckConnectionRPI(){
-  // wait for serial port to connect.
-  while (!Serial) {
+bool serialReadyCheck(){
+  // Wait until RPI is ready
+  while (1){
+    if (Serial.available() > 0){
+      String data = Serial.readStringUntil('\n');
+
+      if (data.equals("RPIready")){
+        return true;
+        break;
+      }
+    }
   }
 }
-
-/*
+  /*
 
   Schema for InfluxDX:
 
