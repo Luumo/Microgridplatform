@@ -30,14 +30,14 @@ void serialPrintSensorData(String location, String sensorname, float value, Stri
 bool serialReadyCheck();
 void dataTransfer(int delay);
 
-// Main program
+// setup
 void setup() {          
   Serial.begin(115200);
   OutdoorTempSensor.begin();
-  serialReadyCheck();
+  // serialReadyCheck();
   delay(100);
 }
-
+// main
 void loop(){
   dataTransfer(2000);
 }
@@ -52,20 +52,20 @@ void dataTransfer(int delayTime){
   structure:
   clusterlocation, sensortype, value, prefix
   */
-  float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(25);
-  float batteryvoltage      = batteryVoltage.readVoltage();         delay(25);
+  float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(100);
+  float batteryvoltage      = batteryVoltage.readVoltage();         delay(100);
 
-  float solarpanelcurrent  = solarPanelCurrent.readCurrent();       delay(25);
-  float batterycurrent     = batteryCurrent.readCurrent();          delay(25);
-  float loadcurrent        = loadCurrent.readCurrent();             delay(25);
+  float solarpanelcurrent  = solarPanelCurrent.readCurrent();       delay(100);
+  float batterycurrent     = batteryCurrent.readCurrent();          delay(100);
+  float loadcurrent        = loadCurrent.readCurrent();             delay(100);
 
-  float batterytemp         = batteryTemp.readTemperature();        delay(25);
-  float solarpaneltemp      = solarPanelTemp.readTemperature();     delay(25);
+  float batterytemp         = batteryTemp.readTemperature();        delay(100);
+  float solarpaneltemp      = solarPanelTemp.readTemperature();     delay(100);
 
-  int rain                  = Rainsensor.readRain();                delay(25);
-  float outdoorhumidity     = OutdoorTempSensor.readHumidity();     delay(25);
-  float outdoortemperature  = OutdoorTempSensor.readTemperature();  delay(25);
-  float windspeed           = windSensor.readWindSpeed();           delay(25);
+  int rain                  = Rainsensor.readRain();                delay(100);
+  float outdoorhumidity     = OutdoorTempSensor.readHumidity();     delay(100);
+  float outdoortemperature  = OutdoorTempSensor.readTemperature();  delay(100);
+  float windspeed           = windSensor.readWindSpeed();           delay(100);
 
   serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
   serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
@@ -99,7 +99,7 @@ void serialPrintSensorData(String location, String sensorname, float value, Stri
 bool serialReadyCheck(){
   // Wait until RPI is ready
   while (1){
-    if (Serial.available() > 0){
+    if (Serial.available()){
       Serial.write("Check");
       String data = Serial.readStringUntil('\n');
       if (data.equals("RPIready")){
