@@ -20,7 +20,7 @@ class RtdSensor{
     float C = -4.183*10E-12;    //constant
     
     //helper functions
-    float readInputSignal(int m_pin);
+    float readInputSignal();
     float getResistance();
     
 };

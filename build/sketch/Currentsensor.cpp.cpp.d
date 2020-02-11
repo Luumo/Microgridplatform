@@ -12,10 +12,10 @@ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Currentsens
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\mega/pins_arduino.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Currentsensor.h \
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/arduino.h \
  C:\Users\LUMO\Documents\Arduino\libraries\DHT_sensor_library/DHT.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Windsensor.h \
  c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RtdSensor.h \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RainSensor.h \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sensor.h
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\RainSensor.h

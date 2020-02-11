@@ -1,20 +1,24 @@
 #include "RtdSensor.h"
+#include "Sampling.h"
 
 RtdSensor::RtdSensor(int pin, float resistance_offset){
     m_pin = pin;
     m_resistance_offset = resistance_offset;
 }
 
-float RtdSensor::readInputSignal(int m_pin){
-    m_ADC = analogRead(m_pin);
+float RtdSensor::readInputSignal(){
+    m_ADC = data_sampling(analogRead(m_pin), 10);
 }
 
 
 float RtdSensor::getResistance(){
-    readInputSignal(m_pin);
+    // read sampled inputdata
+    readInputSignal();
+    //calculate resistance of pt-1000 thermistor
     float resistance = 5000.0 / ( (1023.0 / m_ADC) -1);
-    resistance += m_resistance_offset; //thermistor offset
-    
+    //thermistor offset
+    resistance += m_resistance_offset;
+
     m_resistance = resistance;
 }
 

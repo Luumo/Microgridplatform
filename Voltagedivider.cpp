@@ -1,4 +1,5 @@
 #include "Voltagedivider.h"
+#include "Sampling.h"
 
 VoltageDivider::VoltageDivider(int pin, float R1, float R2){
     m_pin = pin;
@@ -6,33 +7,15 @@ VoltageDivider::VoltageDivider(int pin, float R1, float R2){
     m_R2 = R2;
 }
 
-void VoltageDivider::readInputValue(int _pin){
-
-    m_inputvalue = analogRead(m_pin);
+void VoltageDivider::readInputSignal(int _pin){
+    m_inputvalue = data_sampling(analogRead(m_pin), 20);
 }
 
 
 float VoltageDivider::readVoltage(){
-    readInputValue(m_pin);
+    readInputSignal(m_pin);
     float voltage = m_inputvalue * (5.0 / 1023.0);
     voltage = voltage / (m_R2/(m_R1+m_R2));
 
     return voltage;
 }
-
-/*
-float VoltageDivider::calculateVin(){
-    readInputValue(m_pin);
-    m_vout = (m_inputvalue * 5) / 1024.0; // 5 might have to be changed
-    vin = (m_vout * m_R2) / (m_R1 + m_R2));
-    m_vout = 4.45*m_vout;
-    Serial.print("Raw Sensor Value = " );
-    Serial.print(m_inputvalue);
-    Serial.print(" Voltage (V)= " );
-    Serial.print(m_vout);
-    Serial.print("\n"); 
-    return vin;
-
-
-
-*/

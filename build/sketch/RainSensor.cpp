@@ -1,4 +1,5 @@
 #include "RainSensor.h"
+#include "Sampling.h"
 
 RainSensor::RainSensor(int digital_pin, int analog_pin){
     m_digital_pin = digital_pin;
@@ -6,12 +7,13 @@ RainSensor::RainSensor(int digital_pin, int analog_pin){
 }
 
 
-int RainSensor::AnalogSignal(){
-    return analogRead(m_analog_pin);
+int RainSensor::readAnalogSignal(){
+    int analog_signal_mean = data_sampling(analogRead(m_analog_pin), 10);
+    return analog_signal_mean;
 }
 
 int RainSensor::readRain(){
-    int range = map(AnalogSignal(), m_min, m_max, 0, 3);
+    int range = map(readAnalogSignal(), m_min, m_max, 0, 3);
     int rain_level;
 
     switch(range){

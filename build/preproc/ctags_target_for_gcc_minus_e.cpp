@@ -1,12 +1,14 @@
 # 1 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp"
 # 2 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp" 2
+# 3 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp" 2
 
-CurrentSensor::CurrentSensor(int pin){
+CurrentSensor::CurrentSensor(int pin, float sensitivity){
     m_pin = pin;
+    m_sensitivity = sensitivity;
 }
 
 void CurrentSensor::getAdcValue(int _pin){
-    m_adcValue = analogRead(_pin);
+    m_adcValue = data_sampling(analogRead(_pin), 10);
 }
 
  void CurrentSensor::calcAdcVoltage(){
@@ -33,19 +35,20 @@ float CurrentSensor::readCurrent(){
 
 
 
-VoltageDivider solarPanelVoltage(A0, 215000.0, 66500.0);
+VoltageDivider solarPanelVoltage(A0, 216000.0, 66500.0);
 VoltageDivider batteryVoltage(A1, 217000.0, 66100.0);
 
-CurrentSensor solarPanelCurrent(10);
-CurrentSensor batteryCurrent(11);
-CurrentSensor loadCurrent(12);
+CurrentSensor solarPanelCurrent(10, 66.0);
+CurrentSensor batteryCurrent(11, 66.0);
+CurrentSensor loadCurrent(12, 66.0);
 
-RtdSensor batteryTemp(A3, float(21)); //offset about 21 ohm
+RtdSensor batteryTemp(A3, float(20.81)); //offset about 21 ohm
 RtdSensor solarPanelTemp(A4, float(28)); //ofset about 28 ohm (4 ohm = 1 degree celcius)
 
-RainSensor Rainsensor(52, 15);
 DHT OutdoorTempSensor(A6, 11 /**< DHT TYPE 11 */);
 WindSensor windSensor(14);
+RainSensor Rainsensor(52, 15);
+
 
 // Function declaration
 void serialPrintSensorData(String location, String sensorname, float value, String prefix);
@@ -80,36 +83,37 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
 
   */
-# 55 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
-  float solarpanelvoltage = solarPanelVoltage.readVoltage(); delay(100);
-  float batteryvoltage = batteryVoltage.readVoltage(); delay(100);
+# 58 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+  float solarpanelvoltage = solarPanelVoltage.readVoltage(); delay(10);
+  float batteryvoltage = batteryVoltage.readVoltage(); delay(10);
 
-  float solarpanelcurrent = solarPanelCurrent.readCurrent(); delay(100);
-  float batterycurrent = batteryCurrent.readCurrent(); delay(100);
-  float loadcurrent = loadCurrent.readCurrent(); delay(100);
+  float solarpanelcurrent = solarPanelCurrent.readCurrent(); delay(10);
+  float batterycurrent = batteryCurrent.readCurrent(); delay(10);
+  float loadcurrent = loadCurrent.readCurrent(); delay(10);
 
-  float batterytemp = batteryTemp.readTemperature(); delay(100);
-  float solarpaneltemp = solarPanelTemp.readTemperature(); delay(100);
+  float batterytemp = batteryTemp.readTemperature(); delay(10);
+  float solarpaneltemp = solarPanelTemp.readTemperature(); delay(10);
 
-  int rain = Rainsensor.readRain(); delay(100);
-  float outdoorhumidity = OutdoorTempSensor.readHumidity(); delay(100);
-  float outdoortemperature = OutdoorTempSensor.readTemperature(); delay(100);
-  float windspeed = windSensor.readWindSpeed(); delay(100);
+  float outdoorhumidity = OutdoorTempSensor.readHumidity(); delay(10);
+  float outdoortemperature = OutdoorTempSensor.readTemperature(); delay(10);
+  float windspeed = windSensor.readWindSpeed(); delay(10);
+  int rain = Rainsensor.readRain(); delay(10);
 
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPV", solarpanelvoltage, "V");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BV", batteryvoltage, "V");
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPV", solarpanelvoltage, "V"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BV", batteryvoltage, "V"); delay(25);
 
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPC", solarpanelcurrent, "A");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BC", batterycurrent, "A");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "LC", loadcurrent, "A");
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPC", solarpanelcurrent, "A"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BC", batterycurrent, "A"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "LC", loadcurrent, "A"); delay(25);
 
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BT", batterytemp, "celcius");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPT", solarpaneltemp, "celcius");
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "BT", batterytemp, "celcius"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "SPT", solarpaneltemp, "celcius"); delay(25);
 
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "RAIN", rain, "HIGH/MEDIUM/LOW");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "OUTHUM", outdoorhumidity, "%");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "OUTTEMP", outdoortemperature, "celcuis");
-  serialPrintSensorData("Roof" /* Sensorcluster location*/, "windspeed", windspeed, "m/s");
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "OUTHUM", outdoorhumidity, "%"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "OUTTEMP", outdoortemperature, "celcuis"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "windspeed", windspeed, "m/s"); delay(25);
+  serialPrintSensorData("Roof" /* Sensorcluster location*/, "RAIN", rain, "HIGH/MEDIUM/LOW"); delay(25);
+
 
   delay(delayTime);
 }
@@ -138,6 +142,7 @@ bool serialReadyCheck(){
     }
   }
 }
+
 
   /*
 

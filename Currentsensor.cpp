@@ -1,11 +1,13 @@
 #include "Currentsensor.h"
+#include "Sampling.h"
 
-CurrentSensor::CurrentSensor(int pin){
+CurrentSensor::CurrentSensor(int pin, float sensitivity){
     m_pin = pin;
+    m_sensitivity = sensitivity;
 }
 
 void CurrentSensor::getAdcValue(int _pin){
-    m_adcValue = analogRead(_pin);
+    m_adcValue = data_sampling(analogRead(_pin), 10);
 }
 
  void CurrentSensor::calcAdcVoltage(){

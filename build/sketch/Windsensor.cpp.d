@@ -11,4 +11,5 @@ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Windsensor.
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Printable.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/USBAPI.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
- C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\mega/pins_arduino.h
+ C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\mega/pins_arduino.h \
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.h

@@ -1,6 +1,6 @@
-c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.cpp.o: \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.cpp \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivider.h \
+c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.cpp.o: \
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.cpp \
+ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/arduino.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/binary.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/WCharacter.h \
@@ -11,5 +11,4 @@ c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Voltagedivi
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Printable.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/USBAPI.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/Arduino.h \
- C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\mega/pins_arduino.h \
- c:\Users\LUMO\Desktop\Exjobb\Software\Microgridplatform\build\sketch\Sampling.h
+ C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\variants\mega/pins_arduino.h

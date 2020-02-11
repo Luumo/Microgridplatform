@@ -1,12 +1,12 @@
 #include "Windsensor.h"
-
+#include "Sampling.h"
 
 WindSensor::WindSensor(int pin){
     m_pin = pin;
 }
 
 void WindSensor::getRawData(){
-    m_sensorRawData = analogRead(m_pin);
+    m_sensorRawData = data_sampling(analogRead(m_pin), 20);
 }
 
 
