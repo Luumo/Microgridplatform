@@ -8,26 +8,28 @@ RainSensor::RainSensor(int digital_pin, int analog_pin){
 
 
 int RainSensor::readAnalogSignal(){
+    analogRead(m_analog_pin);  // dummy read
+    analogRead(m_analog_pin);  // dummy read
     int analog_signal_mean = data_sampling(analogRead(m_analog_pin), 10);
     return analog_signal_mean;
 }
 
 int RainSensor::readRain(){
     int range = map(readAnalogSignal(), m_min, m_max, 0, 3);
-    int rain_level;
+    int m_rain_level = 0;
 
     switch(range){
         case 0:
-            rain_level = 0; // Max rain
+            m_rain_level = 2; // Max rain
             break;
 
         case 1:
-            rain_level = 1; // medium rain
+            m_rain_level = 1; // medium rain
             break;
 
         case 2:
-            rain_level = 2; // no rain
+            m_rain_level = 0; // no rain
             break;
     }
-    return float(rain_level);
+    return m_rain_level;
 }

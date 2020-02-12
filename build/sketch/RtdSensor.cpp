@@ -7,6 +7,8 @@ RtdSensor::RtdSensor(int pin, float resistance_offset){
 }
 
 float RtdSensor::readInputSignal(){
+    analogRead(m_pin); // dummy read
+    analogRead(m_pin); // dummy read
     m_ADC = data_sampling(analogRead(m_pin), 10);
 }
 

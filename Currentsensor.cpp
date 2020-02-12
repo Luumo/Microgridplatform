@@ -7,6 +7,8 @@ CurrentSensor::CurrentSensor(int pin, float sensitivity){
 }
 
 void CurrentSensor::getAdcValue(int _pin){
+    analogRead(m_pin); // dummy read
+    analogRead(m_pin); // dummy read
     m_adcValue = data_sampling(analogRead(_pin), 10);
 }
 

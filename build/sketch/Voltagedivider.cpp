@@ -8,7 +8,9 @@ VoltageDivider::VoltageDivider(int pin, float R1, float R2){
 }
 
 void VoltageDivider::readInputSignal(int _pin){
-    m_inputvalue = data_sampling(analogRead(m_pin), 20);
+    analogRead(m_pin);  // dummy read
+    analogRead(m_pin);  // dummy read
+    m_inputvalue = data_sampling(analogRead(m_pin), 10);
 }
 
 

@@ -13,6 +13,7 @@
 
 VoltageDivider  solarPanelVoltage(A0, 216000.0, 66500.0);
 VoltageDivider  batteryVoltage(A1, 217000.0, 66100.0);
+// VoltageDivider  loadVoltage(A2, 216000.0, 66100.0);
 
 CurrentSensor   solarPanelCurrent(10, 66.0);
 CurrentSensor   batteryCurrent(11, 66.0);
@@ -54,13 +55,13 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
   */
 
- 
+  // float loadvoltage         = loadVoltage.readVoltage();            delay(10);
   float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(10);
   float batteryvoltage      = batteryVoltage.readVoltage();         delay(10);
 
-  float solarpanelcurrent  = solarPanelCurrent.readCurrent();       delay(10);
-  float batterycurrent     = batteryCurrent.readCurrent();          delay(10);
-  float loadcurrent        = loadCurrent.readCurrent();             delay(10);
+  float solarpanelcurrent   = solarPanelCurrent.readCurrent();      delay(10);
+  float batterycurrent      = batteryCurrent.readCurrent();         delay(10);
+  float loadcurrent         = loadCurrent.readCurrent();            delay(10);
 
   float batterytemp         = batteryTemp.readTemperature();        delay(10);
   float solarpaneltemp      = solarPanelTemp.readTemperature();     delay(10);
@@ -70,20 +71,21 @@ void dataTransfer(int delayTime){
   float windspeed           = windSensor.readWindSpeed();           delay(10);
   int rain                  = Rainsensor.readRain();                delay(10);
 
-  serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");             delay(25);
-  serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");                 delay(25);
+  serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
+  serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
+  // serialPrintSensorData(LOCATION, "LV", loadvoltage, "V");
 
-  serialPrintSensorData(LOCATION, "SPC", solarpanelcurrent, "A");             delay(25);
-  serialPrintSensorData(LOCATION, "BC", batterycurrent, "A");                 delay(25);
-  serialPrintSensorData(LOCATION, "LC", loadcurrent, "A");                    delay(25);
+  serialPrintSensorData(LOCATION, "SPC", solarpanelcurrent, "A");
+  serialPrintSensorData(LOCATION, "BC", batterycurrent, "A");
+  serialPrintSensorData(LOCATION, "LC", loadcurrent, "A");
 
-  serialPrintSensorData(LOCATION, "BT", batterytemp, "celcius");              delay(25);
-  serialPrintSensorData(LOCATION, "SPT", solarpaneltemp, "celcius");          delay(25);
+  serialPrintSensorData(LOCATION, "BT", batterytemp, "celcius");
+  serialPrintSensorData(LOCATION, "SPT", solarpaneltemp, "celcius");
 
-  serialPrintSensorData(LOCATION, "OUTHUM", outdoorhumidity, "%");            delay(25);
-  serialPrintSensorData(LOCATION, "OUTTEMP", outdoortemperature, "celcuis");  delay(25);
-  serialPrintSensorData(LOCATION, "windspeed", windspeed, "m/s");             delay(25);
-  serialPrintSensorData(LOCATION, "RAIN", rain, "HIGH/MEDIUM/LOW");           delay(25);
+  serialPrintSensorData(LOCATION, "OUTHUM", outdoorhumidity, "%");
+  serialPrintSensorData(LOCATION, "OUTTEMP", outdoortemperature, "celcuis");
+  serialPrintSensorData(LOCATION, "windspeed", windspeed, "m/s");
+  serialPrintSensorData(LOCATION, "RAIN", rain, "HIGH/MEDIUM/LOW");
 
 
   delay(delayTime);

@@ -6,7 +6,9 @@ WindSensor::WindSensor(int pin){
 }
 
 void WindSensor::getRawData(){
-    m_sensorRawData = data_sampling(analogRead(m_pin), 20);
+    analogRead(m_pin); // dummy read
+    analogRead(m_pin); // dummy read
+    m_sensorRawData = data_sampling(analogRead(m_pin), 10);
 }
 
 
