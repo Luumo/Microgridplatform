@@ -13,14 +13,14 @@
 
 VoltageDivider  solarPanelVoltage(A0, 216000.0, 66500.0);
 VoltageDivider  batteryVoltage(A1, 217000.0, 66100.0);
-// VoltageDivider  loadVoltage(A2, 216000.0, 66100.0);
+// VoltageDivider  loadVoltage(A2, 216000.0, 66100.0); // not used
 
-CurrentSensor   solarPanelCurrent(10, 66.0);
-CurrentSensor   batteryCurrent(11, 66.0);
-CurrentSensor   loadCurrent(12, 66.0);
+CurrentSensor   solarPanelCurrent(10, 100.0);
+CurrentSensor   batteryCurrent(11, 100.0);
+CurrentSensor   loadCurrent(12, 100.0);
 
 RtdSensor       batteryTemp(A3, float(20.81)); //offset about 21 ohm
-RtdSensor       solarPanelTemp(A4, float(28)); //ofset about 28 ohm (4 ohm = 1 degree celcius)
+RtdSensor       solarPanelTemp(A4, float(28.0)); //ofset about 28 ohm (4 ohm = 1 degree celcius)
 
 DHT             OutdoorTempSensor(A6, DHT11);
 WindSensor      windSensor(14);
@@ -31,17 +31,17 @@ RainSensor      Rainsensor(52, 15);
 void serialPrintSensorData(String location, String sensorname, float value, String prefix);
 bool serialReadyCheck();
 void dataTransfer(int delay);
+float stateOfCharge(float voltage, float voltage_max, float voltage_min);
 
 // setup
 void setup() {          
   Serial.begin(115200);
   OutdoorTempSensor.begin();
-  // serialReadyCheck();
   delay(100);
 }
 // main
 void loop(){
-  dataTransfer(2000);
+  dataTransfer(3000);
 }
 
 // Functions
@@ -55,9 +55,9 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
   */
 
-  // float loadvoltage         = loadVoltage.readVoltage();            delay(10);
   float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(10);
   float batteryvoltage      = batteryVoltage.readVoltage();         delay(10);
+  // float loadvoltage         = loadVoltage.readVoltage();            delay(10); // not used
 
   float solarpanelcurrent   = solarPanelCurrent.readCurrent();      delay(10);
   float batterycurrent      = batteryCurrent.readCurrent();         delay(10);
@@ -71,8 +71,12 @@ void dataTransfer(int delayTime){
   float windspeed           = windSensor.readWindSpeed();           delay(10);
   int rain                  = Rainsensor.readRain();                delay(10);
 
+  float SoC = stateOfCharge(batteryVoltage.m_voltage, 12.6, 9.6);   delay(10);
+
   serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
   serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
+  serialPrintSensorData(LOCATION, "SoC", SoC, "%");
+
   // serialPrintSensorData(LOCATION, "LV", loadvoltage, "V");
 
   serialPrintSensorData(LOCATION, "SPC", solarpanelcurrent, "A");
@@ -102,63 +106,16 @@ void serialPrintSensorData(String location, String sensorname, float value, Stri
   Serial.print("\n");
 }
 
-bool serialReadyCheck(){
-  // Wait until RPI is ready
-  while (1){
-    if (Serial.available()){
-      Serial.write("Check");
-      String data = Serial.readStringUntil('\n');
-      if (data.equals("RPIready")){
-        return true;
-        break;
-      }
-    }
-  }
-}
-
-
+float stateOfCharge(float voltage, float voltage_max, float voltage_min){
   /*
-  Schema for InfluxDX:
-  See Line Protocol Syntax for influxDB
-  handled at raspberry:
-    date, time
-
-  data to be sent from arduino:
-    clusterlocation,sensortype, value
-
-  ->
-  this has to be parsed to python:
-  data = [
-    {
-      "measurement": sensorcluster,
-      "tags": {
-        "location": location_var,
-        "sensortype": sensortype_Var
-      },
-      "time": iso,
-      "fields": {
-        "value": sensorvalue_Var
-      }
-    }
-  ]
-
-
-  **SORTED BY SENSORCLUSTER**
-  ex:
-
-  INSERT sensorcluster,clusterlocation=1,sensortype=outdoortemp value=23 XXXXXXXXXXXX 
-  see Milk-sensor documentation for futher info about data protocol from python
-
-  name: Sensorcluster
-  -----------------
-  time                         sensortype       clusterlocation    value
-  2019-12-11T19:30:00.xxxxxx   Humidity         1                    90
-  2019-12-11T19:30:00.xxxxxx   outdoortemp      1                    22
-  2019-12-11T19:30:00.xxxxxx   batterytemp      1                    23
-  2019-12-11T19:30:00.xxxxxx   batteryCurrent   1                    8
-  2019-12-11T19:30:00.xxxxxx   batteryvoltage   1                    12.3
-  2019-12-11T19:30:00.xxxxxx   PVvoltage        1                    12.3
-  2019-12-11T19:30:00.xxxxxx   PVCurrent        1                    8
-
-
-*/
+  Calculates state of charge of battery and returns percentage left
+  @param voltage is actual voltage level of the battery
+  @param voltage_max is the voltage when battery is fully charged
+  @param voltage_min is the minimum voltage of battery
+  */
+  float SoC = ((voltage - voltage_min) / (voltage_max - voltage_min)) * 100;
+  if (SoC < 0){
+    SoC = 0;
+  }
+  return SoC; 
+}

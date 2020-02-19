@@ -16,8 +16,8 @@ void VoltageDivider::readInputSignal(int _pin){
 
 float VoltageDivider::readVoltage(){
     readInputSignal(m_pin);
-    float voltage = m_inputvalue * (5.0 / 1023.0);
-    voltage = voltage / (m_R2/(m_R1+m_R2));
+    m_voltage = m_inputvalue * (5.0 / 1023.0);
+    m_voltage = m_voltage / (m_R2/(m_R1+m_R2));
 
-    return voltage;
+    return m_voltage;
 }

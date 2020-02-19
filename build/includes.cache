@@ -35,11 +35,6 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Sensor.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
     "Sourcefile": "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\build\\sketch\\Voltagedivider.cpp",
     "Include": "",
     "Includepath": null
