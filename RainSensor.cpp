@@ -4,6 +4,7 @@
 RainSensor::RainSensor(int digital_pin, int analog_pin){
     m_digital_pin = digital_pin;
     m_analog_pin = analog_pin;
+    pinMode(m_digital_pin, OUTPUT);
 }
 
 
@@ -15,6 +16,14 @@ int RainSensor::readAnalogSignal(){
 }
 
 int RainSensor::readRain(){
+    digitalWrite(m_digital_pin, HIGH);
+    delay(10);
+    int rain = map(readAnalogSignal(), m_min, m_max, 1023, 0);
+    digitalWrite(m_digital_pin, LOW);
+    return rain;
+}
+
+int RainSensor::readMappedRain(){
     int range = map(readAnalogSignal(), m_min, m_max, 0, 3);
     int m_rain_level = 0;
 

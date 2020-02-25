@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#line 37 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 38 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void setup();
-#line 43 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 44 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void loop();
-#line 48 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+#line 49 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 void dataTransfer(int delayTime);
 #line 0 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
 #line 1 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\Currentsensor.cpp"
@@ -60,7 +60,8 @@ RtdSensor       solarPanelTemp(A4, float(28.0)); //ofset about 28 ohm (4 ohm = 1
 
 DHT             OutdoorTempSensor(A6, DHT11);
 WindSensor      windSensor(14);
-RainSensor      Rainsensor(52, 15);
+RainSensor      Rainsensor(48, 15);
+
 
 
 // Function declaration
@@ -91,23 +92,22 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
   */
 
-  float solarpanelvoltage   = solarPanelVoltage.readVoltage();      delay(10);
-  float batteryvoltage      = batteryVoltage.readVoltage();         delay(10);
-  // float loadvoltage         = loadVoltage.readVoltage();            delay(10); // not used
+  float solarpanelvoltage   = solarPanelVoltage.readVoltage();
+  float batteryvoltage      = batteryVoltage.readVoltage();
 
-  float solarpanelcurrent   = solarPanelCurrent.readCurrent();      delay(10);
-  float batterycurrent      = batteryCurrent.readCurrent();         delay(10);
-  float loadcurrent         = loadCurrent.readCurrent();            delay(10);
+  float solarpanelcurrent   = solarPanelCurrent.readCurrent();
+  float batterycurrent      = batteryCurrent.readCurrent();
+  float loadcurrent         = loadCurrent.readCurrent();
 
-  float batterytemp         = batteryTemp.readTemperature();        delay(10);
-  float solarpaneltemp      = solarPanelTemp.readTemperature();     delay(10);
+  float batterytemp         = batteryTemp.readTemperature();
+  float solarpaneltemp      = solarPanelTemp.readTemperature();
 
-  float outdoorhumidity     = OutdoorTempSensor.readHumidity();     delay(10);
-  float outdoortemperature  = OutdoorTempSensor.readTemperature();  delay(10);
-  float windspeed           = windSensor.readWindSpeed();           delay(10);
-  int rain                  = Rainsensor.readRain();                delay(10);
+  float outdoorhumidity     = OutdoorTempSensor.readHumidity();
+  float outdoortemperature  = OutdoorTempSensor.readTemperature();
+  float windspeed           = windSensor.readWindSpeed();
+  int   rain                  = Rainsensor.readRain();
 
-  float SoC = stateOfCharge(batteryVoltage.m_voltage, 12.6, 9.6);   delay(10);
+  float SoC = stateOfCharge(batteryVoltage.m_voltage, 12.6, 9.6);
 
   serialPrintSensorData(LOCATION, "SPV", solarpanelvoltage, "V");
   serialPrintSensorData(LOCATION, "BV", batteryvoltage, "V");
@@ -155,4 +155,3 @@ float stateOfCharge(float voltage, float voltage_max, float voltage_min){
   }
   return SoC; 
 }
-

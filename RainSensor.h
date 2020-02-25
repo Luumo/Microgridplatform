@@ -7,6 +7,7 @@ class RainSensor{
     public:
     RainSensor(int digital_pin, int analog_pin);
     int readRain();
+    int readMappedRain();
 
     private:
     int m_digital_pin;
