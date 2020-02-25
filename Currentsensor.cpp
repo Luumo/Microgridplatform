@@ -9,11 +9,11 @@ CurrentSensor::CurrentSensor(int pin, float sensitivity){
 void CurrentSensor::getAdcValue(int _pin){
     analogRead(m_pin); // dummy read
     analogRead(m_pin); // dummy read
-    m_adcValue = data_sampling(analogRead(_pin), 10);
+    m_adcValue = data_sampling(analogRead(_pin), 20);
 }
 
  void CurrentSensor::calcAdcVoltage(){
-    m_adcVoltage = (m_adcValue / 1024.0) * 5000; // returns adc voltage
+    m_adcVoltage = (m_adcValue / 1024.0) * 5000.0; // returns adc voltage
 }
 
 float CurrentSensor::readCurrent(){
@@ -22,3 +22,4 @@ float CurrentSensor::readCurrent(){
     currentValue = ((m_adcVoltage - m_offsetVoltage) / m_sensitivity);
     return currentValue;
 }
+

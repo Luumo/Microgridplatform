@@ -10,11 +10,11 @@ CurrentSensor::CurrentSensor(int pin, float sensitivity){
 void CurrentSensor::getAdcValue(int _pin){
     analogRead(m_pin); // dummy read
     analogRead(m_pin); // dummy read
-    m_adcValue = data_sampling(analogRead(_pin), 10);
+    m_adcValue = data_sampling(analogRead(_pin), 20);
 }
 
  void CurrentSensor::calcAdcVoltage(){
-    m_adcVoltage = (m_adcValue / 1024.0) * 5000; // returns adc voltage
+    m_adcVoltage = (m_adcValue / 1024.0) * 5000.0; // returns adc voltage
 }
 
 float CurrentSensor::readCurrent(){
@@ -87,9 +87,9 @@ void dataTransfer(int delayTime){
 
   */
 # 58 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
-  // float loadvoltage         = loadVoltage.readVoltage();            delay(10);
   float solarpanelvoltage = solarPanelVoltage.readVoltage(); delay(10);
   float batteryvoltage = batteryVoltage.readVoltage(); delay(10);
+  // float loadvoltage         = loadVoltage.readVoltage();            delay(10); // not used
 
   float solarpanelcurrent = solarPanelCurrent.readCurrent(); delay(10);
   float batterycurrent = batteryCurrent.readCurrent(); delay(10);
