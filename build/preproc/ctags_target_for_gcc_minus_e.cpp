@@ -86,7 +86,10 @@ const unsigned long SensitiveInterval = 3000;
 float numSamples = 0.0;
 //Timer declaration non sensitive data
 unsigned long previousTime = 0;
-const unsigned long interval = 3000;
+const unsigned long interval = 2000;
+
+//Timer declaration send serial data
+unsigned long SendDatapreviousTime = 0;
 
 // Function declaration
 void SerialProtocol(String location, String sensorname, float value, String prefix);
@@ -113,7 +116,11 @@ void loop(){
   unsigned long currentTime = millis();
   collectsensitiveData(currentTime);
   collectNonSensitiveData(currentTime);
-  serialPrintData();
+
+  if ((currentTime - SendDatapreviousTime) >= interval){
+    serialPrintData();
+    SendDatapreviousTime = currentTime;
+  }
 
 
 }
@@ -128,9 +135,9 @@ void serialPrintData(){
   SerialProtocol("Roof" /* Sensorcluster location*/, "BC", batterycurrent, "A");
   SerialProtocol("Roof" /* Sensorcluster location*/, "LC", loadcurrent, "A");
 
-  SerialProtocol("Roof" /* Sensorcluster location*/, "SPE", solarpaneleffect, "A");
-  SerialProtocol("Roof" /* Sensorcluster location*/, "BE", batteryeffect, "A");
-  SerialProtocol("Roof" /* Sensorcluster location*/, "LE", loadeffect, "A");
+  SerialProtocol("Roof" /* Sensorcluster location*/, "SPE", solarpaneleffect, "W");
+  SerialProtocol("Roof" /* Sensorcluster location*/, "BE", batteryeffect, "W");
+  SerialProtocol("Roof" /* Sensorcluster location*/, "LE", loadeffect, "w");
 
   // print non sensitive data
   SerialProtocol("Roof" /* Sensorcluster location*/, "BT", batterytemp, "celcius");
@@ -149,7 +156,6 @@ void collectsensitiveData(unsigned long currentTime){
     solarpaneleffect = calcEffect(solarpanelvoltage, solarpanelcurrent);
     batteryeffect = calcEffect(batteryvoltage, batterycurrent);
     loadeffect = calcEffect(5.0, loadcurrent);
-
     SoC = stateOfCharge(batteryvoltage, 12.6, 9.6);
 
     previousTimeSensitive = currentTime;
@@ -197,7 +203,7 @@ void dataTransfer(int delayTime){
   clusterlocation, sensortype, value, prefix
 
   */
-# 169 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+# 175 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
   solarpanelvoltage = solarPanelVoltage.readVoltage();
   batteryvoltage = batteryVoltage.readVoltage();
 
@@ -258,7 +264,7 @@ float stateOfCharge(float voltage, float voltage_max, float voltage_min){
   @param voltage_min is the minimum voltage of battery
 
   */
-# 224 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+# 230 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
   float SoC = ((voltage - voltage_min) / (voltage_max - voltage_min)) * 100;
   if (SoC < 0){
     SoC = 0;
@@ -276,7 +282,7 @@ void convertTemporaryData(){
   converts sampled data and resets temp variable and numSamples
 
   */
-# 239 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
+# 245 "c:\\Users\\LUMO\\Desktop\\Exjobb\\Software\\Microgridplatform\\main.ino"
   solarpanelvoltage = solarpanelvoltage_temp/numSamples;
   batteryvoltage = batteryvoltage_temp/numSamples;
 
