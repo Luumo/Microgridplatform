@@ -9,23 +9,30 @@
 #include "Windsensor.h"
 #include "Sampling.h"
 
-#define LOCATION "Roof"    // Sensorcluster location
+/* ---------------------------------
+   ~~~~~~~~~~~~~~CONFIG~~~~~~~~~~~~ 
+   ---------------------------------*/
 
+//Sensorcluster location
+#define LOCATION "Roof"
+
+// Sensor definitions
 VoltageDivider  solarPanelVoltage(A0, 216000.0, 66500.0);
 VoltageDivider  batteryVoltage(A1, 217000.0, 66100.0);
-// VoltageDivider  loadVoltage(A2, 216000.0, 66100.0); // not used
+// VoltageDivider  loadVoltage(A2, 216000.0, 66100.0);  // not used
 
 CurrentSensor   solarPanelCurrent(10, 100.0);
 CurrentSensor   batteryCurrent(11, 100.0);
 CurrentSensor   loadCurrent(12, 100.0);
 
-RtdSensor       batteryTemp(A3, float(20.81)); //offset about 21 ohm
-RtdSensor       solarPanelTemp(A4, float(28.0)); //ofset about 28 ohm (4 ohm = 1 degree celcius)
+RtdSensor       batteryTemp(A3, float(20.81));          //offset about 21 ohm
+RtdSensor       solarPanelTemp(A4, float(28.0));        //ofset about 28 ohm (4 ohm = 1 degree celcius)
 
 DHT             OutdoorTempSensor(A6, DHT11);
 WindSensor      windSensor(14);
 RainSensor      Rainsensor(48, 15);
 
+// variables for storing data
 float solarpanelvoltage;
 float solarpanelcurrent;
 float solarpaneleffect;
@@ -56,11 +63,11 @@ float loadcurrent_temp;
 
 //Timer declaration sensitive data
 unsigned long previousTimeSensitive = 0;
-const unsigned long SensitiveInterval = 3000;
+const unsigned long SensitiveInterval = 3000; // milliseconds
 float numSamples = 0.0;
-//Timer declaration non sensitive data
+//Timer declaration non sensitive data.
 unsigned long previousTime = 0;
-const unsigned long interval = 2000;
+const unsigned long interval = 2000;          // milliseconds
 
 //Timer declaration send serial data
 unsigned long SendDatapreviousTime = 0;
@@ -88,7 +95,7 @@ void setup() {
 void loop(){
 
   unsigned long currentTime = millis();
-  collectsensitiveData(currentTime);
+  collectsensitiveData(currentTime);  // Samples it if time interval condition not met
   collectNonSensitiveData(currentTime);
 
   if ((currentTime - SendDatapreviousTime) >= interval){
@@ -101,7 +108,8 @@ void loop(){
 
 // Functions
 void serialPrintData(){
-  // print sensitive data
+  /*print sensitive data 
+    protocol: Location, sensor name, value, prefix */
   SerialProtocol(LOCATION, "SPV", solarpanelvoltage, "V");
   SerialProtocol(LOCATION, "BV", batteryvoltage, "V");
 
@@ -125,6 +133,10 @@ void serialPrintData(){
 }
 
 void collectsensitiveData(unsigned long currentTime){
+  /* collects sensitive data.
+    samples the data until interval condition is met
+    when condition is met, it makes an average of the data,
+    and wipes the temporary variables */
   if (currentTime - previousTimeSensitive >= SensitiveInterval) {
     convertTemporaryData();
     solarpaneleffect  = calcEffect(solarpanelvoltage, solarpanelcurrent);
@@ -165,7 +177,10 @@ void collectNonSensitiveData(unsigned long currentTime){
 void dataTransfer(int delayTime){
 
   /*
-  reads sensordata and sends it via serial communication.
+  FUNCTION NOT IN USE. THIS IS FROM VERSION 1, WHERE ALL DATA
+  IS SENT AT THE SAME TIME, WHICH MAKES THE EFFECT CALCULATIONS UNRELIABLE.
+  
+  Reads sensordata and sends it via serial communication.
   each value is separated by a comma.
   Decodes on the recieving RPI
   structure:
