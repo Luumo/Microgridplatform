@@ -9,6 +9,10 @@ float Sensor::readPin(){
     analogRead(m_pin); // dummy read
     analogRead(m_pin); // dummy read
 
-    return data_sampling(analogRead(m_pin), 10)
+    return data_sampling(analogRead(m_pin), SAMPLE_INTERVAL)
 
+}
+
+float readPinVoltage(){
+    
 }
